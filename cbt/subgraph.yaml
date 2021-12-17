@@ -1,0 +1,32 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Contract
+    network: mainnet
+    source:
+      address: "0x5427FEFA711Eff984124bFBB1AB6fbf5E3DA1820"
+      abi: Contract
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - LiquidityAdded
+        - Relay
+        - Send
+        - WithdrawDone
+      abis:
+        - name: Contract
+          file: ./abis/Contract.json
+      eventHandlers:
+        - event: LiquidityAdded(uint64,address,address,uint256)
+          handler: handleLiquidityAdded
+        - event: Relay(bytes32,address,address,address,uint256,uint64,bytes32)
+          handler: handleRelay
+        - event: Send(bytes32,address,address,address,uint256,uint64,uint64,uint32)
+          handler: handleSend
+        - event: WithdrawDone(bytes32,uint64,address,address,uint256,bytes32)
+          handler: handleWithdrawDone
+      file: ./src/mapping.ts
